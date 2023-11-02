@@ -1,14 +1,11 @@
 package com.sergtm.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-
+import com.sergtm.controllers.rest.request.WeightRequest;
+import com.sergtm.entities.Person;
+import com.sergtm.entities.Weight;
+import com.sergtm.repository.WeightRepository;
+import com.sergtm.service.IPersonService;
+import com.sergtm.service.IWeightService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,12 +15,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.sergtm.controllers.rest.dto.WeightDto;
-import com.sergtm.entities.Person;
-import com.sergtm.entities.Weight;
-import com.sergtm.repository.WeightRepository;
-import com.sergtm.service.IPersonService;
-import com.sergtm.service.IWeightService;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WeightServiceImplTest {
@@ -69,8 +68,8 @@ public class WeightServiceImplTest {
 		assertEquals(weight.getWeight(), WEIGHT);
 	}
 
-	private WeightDto createWeightDto() {
-		WeightDto weightDto = new WeightDto();
+	private WeightRequest createWeightDto() {
+		WeightRequest weightDto = new WeightRequest();
 
 		weightDto.setDate(WEIGHT_LOCAL_DATE);
 		weightDto.setWeight(WEIGHT);

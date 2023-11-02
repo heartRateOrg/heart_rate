@@ -6,17 +6,17 @@
     <groupId>heart_rate</groupId>
     <artifactId>heart_rate</artifactId>
     <packaging>war</packaging>
-    <version>1.6.0-SNAPSHOT</version>
+    <version>1.7.0-SNAPSHOT</version>
 
     <name>heart_rate Maven Webapp</name>
 
     <url>http://maven.apache.org</url>
 
     <repositories>
-        <!-- Repository for ORACLE ojdbc7. -->
         <repository>
-            <id>codelds</id>
-            <url>https://code.lds.org/nexus/content/groups/main-repo</url>
+            <id>hand-china-repo</id>
+            <name>HandChinaRepo</name>
+            <url>https://nexus.saas.hand-china.com/content/repositories/rdc/</url>
         </repository>
     </repositories>
 
@@ -80,6 +80,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- Spring boot end -->
 
         <!-- Swagger begin -->
@@ -130,6 +135,11 @@
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-dbcp</artifactId>
             <version>7.0.55</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>12.1.0.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -188,6 +198,10 @@
             <artifactId>mockito-all</artifactId>
             <version>1.10.19</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 </project>

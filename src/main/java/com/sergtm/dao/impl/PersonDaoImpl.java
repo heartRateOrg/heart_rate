@@ -2,7 +2,6 @@ package com.sergtm.dao.impl;
 
 import com.sergtm.dao.IPersonDao;
 import com.sergtm.entities.Person;
-import com.sergtm.entities.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,12 +15,12 @@ import java.util.List;
  * Created by Sergey on 18.07.2017.
  */
 @Repository
-@Transactional
 public class PersonDaoImpl implements IPersonDao{
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public void savePerson(Person person) {
         sessionFactory.getCurrentSession().saveOrUpdate(person);
     }
@@ -29,11 +28,6 @@ public class PersonDaoImpl implements IPersonDao{
     @Override
     public Person getPersonById(Long personId) {
         return sessionFactory.getCurrentSession().get(Person.class, personId);
-    }
-
-    @Override
-    public void deletePerson(Person person) {
-        sessionFactory.getCurrentSession().delete(person);
     }
 
     @Override
@@ -53,10 +47,13 @@ public class PersonDaoImpl implements IPersonDao{
     }
 
     @Override
-    public Collection<Person> getByUser(User user) {
-        String sql = "from Person pr where pr.id not in (select p.id FROM Person p join p.staffMembers s where s.user.id != :user_id)";
+    public Collection<Person> getByUser(String userName) {
+        String sql = "select sm.person from StaffMember sm \n" +
+                "join sm.person p \n" +
+                "join sm.user u \n" +
+                "where u.username = :username";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
-        query.setParameter("user_id", user.getId());
+        query.setParameter("username", userName);
         return query.getResultList();
     }
 }

@@ -1,9 +1,9 @@
 package com.sergtm.dao;
 
+import com.sergtm.entities.HeartRate;
+
 import java.util.Collection;
 import java.util.Date;
-
-import com.sergtm.entities.HeartRate;
 
 /**
  * Created by Sergey on 18.07.2017.

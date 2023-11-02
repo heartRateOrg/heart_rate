@@ -1,14 +1,14 @@
 package com.sergtm.service;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
-
 import com.sergtm.dto.StatisticOnDay;
 import com.sergtm.entities.HeartRate;
 import com.sergtm.entities.IEntity;
 import com.sergtm.form.AddHeartRateForm;
 
-public interface IHeartRateService {
+import java.time.LocalDateTime;
+import java.util.Collection;
+
+public interface IHeartRateService extends IDeletableByPersonService {
 	Collection<? extends IEntity> createHeartRate(int upperPressure, int lowerPressure, int beatsPerMinute, LocalDateTime dt, String firstName, String secondName);
 
 	HeartRate createHeartRate(Long id, AddHeartRateForm form);
@@ -21,6 +21,5 @@ public interface IHeartRateService {
 	Collection<? extends IEntity> findHeartRatesByDateRangeAndPerson(Long personId, LocalDateTime from, LocalDateTime to, String userName);
 	Collection<? extends IEntity> findByPage(int page);
 	HeartRate findById(Long id);
-
 	Collection<? extends IEntity> getHelp(String query, String topicName);
 }

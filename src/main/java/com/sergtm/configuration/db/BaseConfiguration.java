@@ -47,8 +47,7 @@ public class BaseConfiguration{
     public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
-        sessionFactory.setPackagesToScan(
-                new String[] { "com.sergtm.entities" });
+        sessionFactory.setPackagesToScan("com.sergtm.entities");
         sessionFactory.setHibernateProperties(getHibernateProperties());
 
         return sessionFactory;

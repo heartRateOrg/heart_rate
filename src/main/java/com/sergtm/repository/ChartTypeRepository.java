@@ -1,8 +1,7 @@
 package com.sergtm.repository;
 
-import org.springframework.data.repository.CrudRepository;
-
 import com.sergtm.entities.ChartType;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ChartTypeRepository extends CrudRepository<ChartType, Long> {
+public interface ChartTypeRepository extends JpaRepository<ChartType, Long> {
 }

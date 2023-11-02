@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -19,7 +18,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.sergtm.OccasionLevel;
-import com.sergtm.controllers.rest.dto.OccasionDto;
+import com.sergtm.controllers.rest.request.OccasionRequest;
 import com.sergtm.entities.Disease;
 import com.sergtm.entities.Occasion;
 import com.sergtm.entities.Person;
@@ -80,13 +79,13 @@ public class OccasionServiceImplTest {
 		assertEquals(occasion.getOccasionDate(), OCCASION_DATE);
 	}
 
-	private OccasionDto createOccasionDto() {
-		OccasionDto occasionDto = new OccasionDto();
+	private OccasionRequest createOccasionDto() {
+		OccasionRequest occasionRequest = new OccasionRequest();
 
-		occasionDto.setOccasionLevel(OCCASION_LEVEL);
-		occasionDto.setConvulsion(IS_CONVULSION);
-		occasionDto.setOccasionDate(OCCASION_LOCAL_DT);
+		occasionRequest.setOccasionLevel(OCCASION_LEVEL);
+		occasionRequest.setConvulsion(IS_CONVULSION);
+		occasionRequest.setOccasionDate(OCCASION_LOCAL_DT);
 
-		return occasionDto;
+		return occasionRequest;
 	}
 }

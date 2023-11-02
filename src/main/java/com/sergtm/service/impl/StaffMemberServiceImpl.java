@@ -7,7 +7,6 @@ import com.sergtm.entities.User;
 import com.sergtm.service.IPersonService;
 import com.sergtm.service.IStaffMemberService;
 import com.sergtm.service.IUserService;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +14,7 @@ import javax.annotation.Resource;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class StaffMemberServiceImpl implements IStaffMemberService {
     @Resource
     private IStaffMemberDao staffMemberDao;
@@ -57,5 +57,10 @@ public class StaffMemberServiceImpl implements IStaffMemberService {
         staffMember.getPatients().add(person);
 
         return staffMember;
+    }
+
+    @Override
+    public void deleteByPerson(Person person) {
+        staffMemberDao.deleteByPerson(person);
     }
 }

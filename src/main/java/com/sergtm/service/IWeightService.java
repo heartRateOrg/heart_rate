@@ -1,11 +1,11 @@
 package com.sergtm.service;
 
+import com.sergtm.controllers.rest.request.WeightRequest;
+
 import java.util.List;
 
-import com.sergtm.controllers.rest.dto.WeightDto;
-
-public interface IWeightService {
-	void addWeight(Long personId, WeightDto weightDto);
+public interface IWeightService extends IDeletableByPersonService {
+	void addWeight(Long personId, WeightRequest weightDto);
 	void removeWeight(Long weightId);
-	List<WeightDto> findWeights();
+	List<WeightRequest> findWeights();
 }

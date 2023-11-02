@@ -1,10 +1,15 @@
 package com.sergtm.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import com.sergtm.entities.Occasion;
+import com.sergtm.entities.Person;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.sergtm.entities.Occasion;
-
 @Repository
-public interface OccasionRepository extends CrudRepository<Occasion, Long> {
+public interface OccasionRepository extends JpaRepository<Occasion, Long> {
+    @Modifying
+    @Query("delete from Occasion o where o.person = :person")
+    void deleteByPerson(Person person);
 }

@@ -1,24 +1,21 @@
 package com.sergtm.dao.impl;
 
-import java.util.Collection;
-import java.util.Date;
-
-import javax.persistence.Query;
-import javax.persistence.TemporalType;
-import javax.transaction.Transactional;
-
+import com.sergtm.dao.IHeartRateDao;
+import com.sergtm.entities.HeartRate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.sergtm.dao.IHeartRateDao;
-import com.sergtm.entities.HeartRate;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
+import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by Sergey on 18.07.2017.
  */
 @Repository
-@Transactional
 public class HeartRateDaoImpl implements IHeartRateDao {
 	private static final String FIND_BY_DATE_RANGE_AND_PERSON_ID = "FROM HeartRate h where h.date between :from and :to and h.person.id = :id order by h.date";
 
@@ -26,6 +23,7 @@ public class HeartRateDaoImpl implements IHeartRateDao {
 	private SessionFactory sessionFactory;
 
 	@Override
+	@Transactional
 	public void addHeartRate(HeartRate heartRate) {
 		sessionFactory.getCurrentSession().save(heartRate);
 	}
@@ -36,6 +34,7 @@ public class HeartRateDaoImpl implements IHeartRateDao {
 	}
 
 	@Override
+	@Transactional
 	public void deleteHeartRate(HeartRate heartRate) {
 		sessionFactory.getCurrentSession().delete(heartRate);
 	}

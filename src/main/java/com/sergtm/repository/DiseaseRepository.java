@@ -1,11 +1,10 @@
 package com.sergtm.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import com.sergtm.entities.Disease;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.sergtm.entities.Disease;
-
 @Repository
-public interface DiseaseRepository extends CrudRepository<Disease, Long> {
+public interface DiseaseRepository extends JpaRepository<Disease, Long> {
 	Disease findOneByName(String name);
 }

@@ -1,13 +1,15 @@
 package com.sergtm.repository;
 
 import com.sergtm.entities.Person;
-import com.sergtm.entities.Weight;
+import com.sergtm.entities.StaffMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-public interface WeightRepository extends JpaRepository<Weight, Long> {
+@Repository
+public interface StaffMemberRepository extends JpaRepository<StaffMember, Long> {
     @Modifying
-    @Query("delete from Weight w where w.person = :person")
+    @Query("delete from StaffMember sm where sm.person = :person")
     void deleteByPerson(Person person);
 }

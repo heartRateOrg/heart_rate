@@ -1,93 +1,93 @@
 package com.sergtm.service.impl;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Resource;
-
+import com.sergtm.dao.IPersonDao;
+import com.sergtm.entities.Person;
+import com.sergtm.repository.PersonRepository;
+import com.sergtm.service.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.sergtm.dao.IPersonDao;
-import com.sergtm.entities.Person;
-import com.sergtm.entities.StaffMember;
-import com.sergtm.entities.User;
-import com.sergtm.repository.PersonRepository;
-import com.sergtm.service.IPersonService;
-import com.sergtm.service.IStaffMemberService;
-import com.sergtm.service.IUserService;
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.stream.Stream;
 
 @Service
-public class PersonServiceImpl implements IPersonService{
-	private static final String CAN_NOT_FIND_PERSON_BY_PERSON_ID_MESSAGE = "Can't find person by person id = %s";
+@Transactional(readOnly = true)
+public class PersonServiceImpl implements IPersonService {
+    private static final Logger LOG = LogManager.getLogger(PersonServiceImpl.class);
+
+    private static final String CAN_NOT_FIND_PERSON_BY_PERSON_ID_MESSAGE = "Can't find person by person id = %s";
 
     @Autowired
     private IPersonDao personDao;
-    @Autowired
-    private IUserService userService;
     @Resource
     private IStaffMemberService staffMemberService;
+    @Resource
+    private IWeightService weightService;
+    @Resource
+    private IHeartRateService heartRateService;
+    @Resource
+    private IOccasionService occasionService;
     @Resource
     private PersonRepository personRepository;
 
     @Override
+    @Transactional
     public boolean deletePerson(Long id) {
-        Person person = personDao.getPersonById(id);
-        if(person==null){
+        Person person = findByIdOrThrowException(id);
+        return deletePersonRelatedData(person);
+    }
+
+    private boolean deletePersonRelatedData(Person person) {
+        try {
+            Stream.of(staffMemberService, weightService, heartRateService, occasionService)
+                    .forEach(service -> service.deleteByPerson(person));
+            personRepository.deleteByPerson(person.getId());
+            return true;
+        } catch (HibernateException ex) {
+            LOG.debug(ex.getMessage(), ex);
             return false;
         }
-        try {
-            personDao.deletePerson(person);
-            return true;
-        }catch (HibernateException ignored){
-
-        }
-        return false;
     }
 
     @Override
-    public Person addPerson(String firstName, String secondName, String userName) {
-        Person person = createPerson(firstName, secondName, userService.findUserByUsername(userName));
+    @Transactional
+    public Person addPerson(String firstName, String secondName) {
+        Person person = createPerson(firstName, secondName);
         personDao.savePerson(person);
         return person;
     }
 
     @Override
     public Collection<Person> findAll() {
-        return personDao.findAll();
+        return personRepository.findAll();
     }
 
     @Override
     public Collection<Person> getByUser(String userName) {
-        User user = userService.findUserByUsername(userName);
-        return personDao.getByUser(user);
+        return personDao.getByUser(userName);
     }
 
     @Override
     //TODO: rewrite
     public Person getByName(String firstName, String secondName) {
-
         return personDao.getPersonByName(firstName, secondName).get(0);
     }
 
-    private Person createPerson(String firstName, String secondName, User user){
-        Set<StaffMember> staffMembers = new HashSet<>();
-        StaffMember staffMember = staffMemberService.getByUser(user);
-        if (staffMember != null)
-            staffMembers.add(staffMember);
-
+    private Person createPerson(String firstName, String secondName) {
         Person person = new Person();
         person.setFirstName(firstName);
         person.setSecondName(secondName);
-        person.setStaffMembers(staffMembers);
         return person;
     }
 
-	@Override
-	public Person findByIdOrThrowException(Long personId) {
-		return personRepository.findById(personId)
-			.orElseThrow(() -> new IllegalArgumentException(String.format(CAN_NOT_FIND_PERSON_BY_PERSON_ID_MESSAGE, personId)));
-	}
+    @Override
+    public Person findByIdOrThrowException(Long personId) {
+        return personRepository.findById(personId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format(CAN_NOT_FIND_PERSON_BY_PERSON_ID_MESSAGE, personId)));
+    }
 }

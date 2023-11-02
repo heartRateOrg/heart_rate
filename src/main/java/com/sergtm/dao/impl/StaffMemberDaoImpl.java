@@ -1,23 +1,25 @@
 package com.sergtm.dao.impl;
 
-import java.util.Optional;
-
-import javax.persistence.Query;
-
+import com.sergtm.dao.IStaffMemberDao;
+import com.sergtm.entities.Person;
+import com.sergtm.entities.StaffMember;
+import com.sergtm.entities.User;
+import com.sergtm.repository.StaffMemberRepository;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sergtm.dao.IStaffMemberDao;
-import com.sergtm.entities.StaffMember;
-import com.sergtm.entities.User;
+import javax.annotation.Resource;
+import javax.persistence.Query;
+import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true)
 public class StaffMemberDaoImpl implements IStaffMemberDao {
     @Autowired
     private SessionFactory sessionFactory;
+    @Resource
+    private StaffMemberRepository staffMemberRepository;
 
     @Override
     public Optional<StaffMember> getByUser(User user) {
@@ -32,5 +34,10 @@ public class StaffMemberDaoImpl implements IStaffMemberDao {
     @Transactional
     public void save(StaffMember staffMember) {
         sessionFactory.getCurrentSession().save(staffMember);
+    }
+
+    @Override
+    public void deleteByPerson(Person person) {
+        staffMemberRepository.deleteByPerson(person);
     }
 }

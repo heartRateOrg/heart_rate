@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.sergtm.repository.HeartRateRepository;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,8 @@ import com.sergtm.service.IHeartRateService;
 import com.sergtm.service.IUserService;
 import com.sergtm.util.DateUtils;
 
+import javax.annotation.Resource;
+
 @Service
 @Transactional(readOnly = true)
 public class HeartRateServiceImpl implements IHeartRateService {
@@ -39,6 +42,8 @@ public class HeartRateServiceImpl implements IHeartRateService {
 	private IHeartRateDao heartRateDao;
 	@Autowired
 	private IHeartRateWithWeatherDao heartRateWithWeatherDao;
+	@Resource
+	private HeartRateRepository heartRateRepository;
 
 	@Autowired
 	private IPersonDao personDao;
@@ -172,5 +177,10 @@ public class HeartRateServiceImpl implements IHeartRateService {
 	@Override
 	public HeartRate findById(Long id) {
 		return heartRateDao.findById(id);
+	}
+
+	@Override
+	public void deleteByPerson(Person person) {
+		heartRateRepository.deleteByPerson(person);
 	}
 }

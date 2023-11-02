@@ -1,15 +1,11 @@
 package com.sergtm.service;
 
+import com.sergtm.controllers.rest.request.OccasionRequest;
+
 import java.util.List;
 
-import com.sergtm.controllers.rest.dto.OccasionDto;
-
-public interface IOccasionService {
-
-	void addOccasion(Long personId, OccasionDto occasionDto);
-
+public interface IOccasionService extends IDeletableByPersonService {
+	void addOccasion(Long personId, OccasionRequest occasionRequest);
 	void removeOccasion(Long occasionId);
-
-	List<OccasionDto> findOccasions();
-
+	List<OccasionRequest> findOccasions();
 }

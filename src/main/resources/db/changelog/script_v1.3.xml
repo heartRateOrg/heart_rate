@@ -57,7 +57,7 @@
         </createTable>
         <addForeignKeyConstraint baseTableName="PATIENT_DOCTOR"
                                  baseColumnNames="DOCTOR_ID"
-                                 constraintName="fk_patientDoctor_staffMember_id"
+                                 constraintName="fk_patientDoctor_staffMbr_id"
                                  referencedTableName="STAFF_MEMBER"
                                  referencedColumnNames="ID"/>
         <addForeignKeyConstraint baseTableName="PATIENT_DOCTOR"
